@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from abc import ABC, abstractmethod
 
-from devshowcase.core import Settings
+from devshowcase.core.settings import Settings
 
 
 class PostgresDB(ABC):
