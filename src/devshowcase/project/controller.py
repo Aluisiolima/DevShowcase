@@ -19,13 +19,13 @@ project_router = APIRouter(prefix="/project", tags=["Project"])
 async def create_project(
     project: ProjectCreateSchema, session: AsyncSessionDep
 ) -> ProjectCreateSchema:
-    return ProjectService.create_project(project=project, db=session)
+    return await ProjectService.create_project(project_data=project, db=session)
 
 @project_router.get(
     "/{id}", response_model=ProjectResponseSchema, status_code=HTTPStatus.CREATED
 )
 async def get_project(id: int, session: AsyncSessionDep) -> ProjectResponseSchema:
-    return ProjectService.get_project_by_id_profile(profile_id=id, db=session)
+    return await ProjectService.get_project_by_id(id=id, db=session)
 
 @project_router.put(
     "/{id}", response_model=ProjectResponseSchema, status_code=HTTPStatus.CREATED
@@ -33,7 +33,7 @@ async def get_project(id: int, session: AsyncSessionDep) -> ProjectResponseSchem
 async def add_curtida_project(
     id: int, session: AsyncSessionDep
 ) -> ProjectResponseSchema:
-    return ProjectService.add_curtida_project(
+    return await ProjectService.add_curtida_project(
         project_id=id, db=session
     )
     
@@ -43,16 +43,16 @@ async def add_curtida_project(
 async def add_feedback_project(
     id: int, feedback: FeedbackCreateSchema, session: AsyncSessionDep
 ) -> ProjectResponseSchema:
-    return ProjectService.create_feedback_project(
+    return await ProjectService.create_feedback_project(
         project_id=id, feedback_data=feedback, db=session
     )
     
-@project_router.get("/", response_model=ProjectResponseSchema, status_code=HTTPStatus.OK)
+@project_router.get("/", response_model=list[ProjectResponseSchema], status_code=HTTPStatus.OK)
 async def get_all_projects(session: AsyncSessionDep) -> list[ProjectResponseSchema]:
-    return ProjectService.get_projects(db=session)
+    return await ProjectService.get_projects(db=session)
 
 @project_router.get(
-    "/search/{search_term}", response_model=ProjectResponseSchema, status_code=HTTPStatus.OK
+    "/search/{search_term}", response_model=list[ProjectResponseSchema], status_code=HTTPStatus.OK
 )
 async def search_projects(search_term: str, offset: int | None, limit: int | None, session: AsyncSessionDep) -> list[ProjectResponseSchema]:
-    return ProjectService.get_project_by_search(search_term=search_term, offset=offset, limit=limit, db=session)
+    return await ProjectService.get_project_by_search(search_term=search_term, offset=offset, limit=limit, db=session)

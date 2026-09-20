@@ -8,7 +8,6 @@ class ProfileCreateSchema(BaseSchemas):
     """
 
     nome: str = Field(..., description="Profile name")
-    descricao: str = Field(..., description="Profile description")
 
 
 class ProfileUpdateSchema(BaseSchemas):
@@ -17,13 +16,11 @@ class ProfileUpdateSchema(BaseSchemas):
     """
 
     nome: str = Field(..., description="Profile name")
-    descricao: str = Field(..., description="Profile description")
 
 
 class ProfileResponseSchema(BaseSchemas):
     """
     Profile schema Response class
     """
-
+    id:int
     nome: str
-    descricao: str

@@ -25,6 +25,6 @@ class FeedbackResponseSchema(BaseSchemas):
     """
     Feedback schema Response class
     """
-
+    id: int
     text: str
     estrela: int

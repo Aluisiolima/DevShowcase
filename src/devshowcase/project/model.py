@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from devshowcase.core.repository import Profile, Feedback
+    from devshowcase.core.repository import Profile, Feedback, TechnologyProject
 
 
 class Project(BaseModels):
@@ -25,4 +25,5 @@ class Project(BaseModels):
 
     profile_id: Mapped[int] = mapped_column(ForeignKey("profile.id"), nullable=False)
 
-    profile: Mapped["Profile"] = relationship("Profile", back_populates="projects")
+    profile: Mapped["Profile"] = relationship("Profile", back_populates="projects") 
+    technology_projects: Mapped["TechnologyProject"] = relationship("TechnologyProject", back_populates="project")

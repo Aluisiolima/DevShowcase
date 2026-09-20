@@ -43,8 +43,8 @@ class ProjectService:
 
     @staticmethod
     @exceptions
-    async def get_project_by_id_profile(
-        profile_id: int, db: AsyncSession
+    async def get_project_by_id(
+        id: int, db: AsyncSession
     ) -> ProjectResponseSchema:
         """
         Retrieve a project entry by its ID.
@@ -62,13 +62,13 @@ class ProjectService:
         result = await db.execute(
             select(Project)
             .options(selectinload(Project.feedbacks))
-            .where(Project.profile_id == profile_id)
+            .where(Project.id == id)
         )
         project = result.scalar_one_or_none()
         if not project:
             raise HTTPException(
                 status_code=HTTPStatus.NOT_FOUND,
-                detail=f"Project with ID {profile_id} not found.",
+                detail=f"Project with ID {id} not found.",
             )
         return ProjectResponseSchema.model_validate(project)
 
@@ -140,14 +140,14 @@ class ProjectService:
         new_feedback = Feedback(**feedback_data.model_dump(), project_id=project_id)
         db.add(new_feedback)
         await db.commit()
-        await db.refresh(project)
+        await db.refresh(project)   
 
         return ProjectResponseSchema.model_validate(project)
     
     
     @staticmethod
     @exceptions
-    async def get_projects(db: AsyncSession):
+    async def get_projects(db: AsyncSession) -> list[ProjectResponseSchema]:
         """
         Retrieve all project entries.
 

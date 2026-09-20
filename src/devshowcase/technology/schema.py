@@ -24,6 +24,6 @@ class TechnologyResponseSchema(BaseSchemas):
     """
     Technology schema Response class
     """
-
+    id: int
     nome: str
     descricao: str

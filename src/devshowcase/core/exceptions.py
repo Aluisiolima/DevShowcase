@@ -25,6 +25,8 @@ class ExceptionMessages:
                 status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
                 detail=("Erro de operação no banco de dados, verifique a consulta"),
             )
+        elif isinstance(exc, HTTPException):
+            raise exc
         else:
             raise HTTPException(
                 status_code=HTTPStatus.INTERNAL_SERVER_ERROR,

@@ -1,8 +1,7 @@
 from pydantic import Field
 from devshowcase.core import BaseSchemas
-from devshowcase.technology.schema import (
-    TechnologyResponseSchema,
-    TechnologyCreateSchema,
+from devshowcase.feedback.schema import (
+    FeedbackResponseSchema,
 )
 
 
@@ -13,9 +12,7 @@ class ProjectCreateSchema(BaseSchemas):
 
     nome: str = Field(..., description="Project name")
     descricao: str = Field(..., description="Project description")
-    tecnologias: list[TechnologyCreateSchema] = Field(
-        ..., description="List of technology names associated with the project"
-    )
+    profile_id: int = Field(..., description="Profile id")
 
 
 class ProjectUpdateSchema(BaseSchemas):
@@ -31,7 +28,8 @@ class ProjectResponseSchema(BaseSchemas):
     """
     Project schema Response class
     """
-
+    id: int
     nome: str
     descricao: str
-    tecnologias: list[TechnologyResponseSchema]
+    curtidas: int
+    feedbacks: list[FeedbackResponseSchema]

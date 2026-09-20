@@ -3,12 +3,11 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from abc import ABC, abstractmethod
 
 from devshowcase.core.settings import Settings
 
 
-class PostgresDB(ABC):
+class PostgresDB:
     def __init__(self):
         self.database_url = Settings().DATABASE_URL
         self.engine = create_async_engine(
@@ -18,8 +17,10 @@ class PostgresDB(ABC):
             bind=self.engine, class_=AsyncSession, expire_on_commit=False
         )
 
-    @abstractmethod
     async def get_session(self):
         """Get a new database session."""
         async with self.session_factory() as session:
             yield session
+
+
+db = PostgresDB()
