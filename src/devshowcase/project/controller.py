@@ -19,7 +19,7 @@ project_router = APIRouter(prefix="/project", tags=["Project"])
 )
 async def create_project(
     project: ProjectCreateSchema, session: AsyncSessionDep
-) -> ProjectCreateSchema:
+) -> ProjectResponseSchema:
     return await ProjectService.create_project(project_data=project, db=session)
 
 

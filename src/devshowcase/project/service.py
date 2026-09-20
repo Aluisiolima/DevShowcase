@@ -24,7 +24,7 @@ class ProjectService:
     @exceptions
     async def create_project(
         project_data: ProjectCreateSchema, db: AsyncSession
-    ) -> ProjectCreateSchema:
+    ) -> ProjectResponseSchema:
         """
         Create a new project entry in the database.
 
@@ -39,7 +39,12 @@ class ProjectService:
         db.add(new_project)
         await db.commit()
         await db.refresh(new_project)
-        return ProjectCreateSchema.model_validate(new_project)
+        result = await db.execute(
+                    select(Project)
+                    .options(selectinload(Project.feedbacks))
+                    .where(Project.id == new_project.id)
+                )
+        return ProjectResponseSchema.model_validate(new_project)
 
     @staticmethod
     @exceptions
