@@ -15,7 +15,7 @@ class Technology(BaseModels):
 
     __tablename__ = "technology"
 
-    nome: Mapped[str] = mapped_column(nullable=False)
+    nome: Mapped[str] = mapped_column(nullable=False, unique=True)
     descricao: Mapped[str] = mapped_column(nullable=False)
 
     technology_projects: Mapped[list["TechnologyProject"]] = relationship(

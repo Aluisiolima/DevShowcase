@@ -14,7 +14,7 @@ class Profile(BaseModels):
 
     __tablename__ = "profile"
 
-    nome: Mapped[str] = mapped_column(nullable=False)
+    nome: Mapped[str] = mapped_column(nullable=False, unique=True)
     projects: Mapped[list["Project"]] = relationship(
         "Project", back_populates="profile", cascade="all, delete-orphan"
     )

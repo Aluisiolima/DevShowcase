@@ -15,7 +15,7 @@ class Project(BaseModels):
 
     __tablename__ = "project"
 
-    nome: Mapped[str] = mapped_column(nullable=False)
+    nome: Mapped[str] = mapped_column(nullable=False, unique=True)
     descricao: Mapped[str] = mapped_column(nullable=False)
     curtidas: Mapped[int] = mapped_column(nullable=False, default=0)
 
