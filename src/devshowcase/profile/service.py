@@ -34,7 +34,7 @@ class ProfileService:
         db.add(new_profile)
         await db.commit()
         await db.refresh(new_profile)
-        return ProfileCreateSchema.model_validate(new_profile)
+        return ProfileResponseSchema.model_validate(new_profile)
 
     @staticmethod
     @exceptions
@@ -65,4 +65,4 @@ class ProfileService:
                 status_code=HTTPStatus.NOT_FOUND,
                 detail=f"Profile with ID {profile_id} not found",
             )
-        return ProfileCreateSchema.model_validate(profile)
+        return ProfileResponseSchema.model_validate(profile)
