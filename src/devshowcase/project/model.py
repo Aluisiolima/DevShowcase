@@ -25,5 +25,7 @@ class Project(BaseModels):
 
     profile_id: Mapped[int] = mapped_column(ForeignKey("profile.id"), nullable=False)
 
-    profile: Mapped["Profile"] = relationship("Profile", back_populates="projects") 
-    technology_projects: Mapped["TechnologyProject"] = relationship("TechnologyProject", back_populates="project")
+    profile: Mapped["Profile"] = relationship("Profile", back_populates="projects")
+    technology_projects: Mapped["TechnologyProject"] = relationship(
+        "TechnologyProject", back_populates="project"
+    )

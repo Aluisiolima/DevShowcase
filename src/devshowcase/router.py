@@ -13,6 +13,7 @@ router = APIRouter()
 async def read_root():
     return {"message": "Welcome to the Dev Showcase API!"}
 
+
 router.include_router(project_router)
 router.include_router(technology_router)
 router.include_router(feedback_router)

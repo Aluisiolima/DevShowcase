@@ -19,6 +19,4 @@ class Feedback(BaseModels):
     text: Mapped[str] = mapped_column(nullable=False)
     estrela: Mapped[int] = mapped_column(nullable=False)
     project_id: Mapped[int] = mapped_column(ForeignKey("project.id"), nullable=False)
-    project: Mapped["Project"] = relationship(
-        "Project", back_populates="feedbacks"
-    )
+    project: Mapped["Project"] = relationship("Project", back_populates="feedbacks")

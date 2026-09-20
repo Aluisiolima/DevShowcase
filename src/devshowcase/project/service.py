@@ -43,9 +43,7 @@ class ProjectService:
 
     @staticmethod
     @exceptions
-    async def get_project_by_id(
-        id: int, db: AsyncSession
-    ) -> ProjectResponseSchema:
+    async def get_project_by_id(id: int, db: AsyncSession) -> ProjectResponseSchema:
         """
         Retrieve a project entry by its ID.
 
@@ -140,11 +138,10 @@ class ProjectService:
         new_feedback = Feedback(**feedback_data.model_dump(), project_id=project_id)
         db.add(new_feedback)
         await db.commit()
-        await db.refresh(project)   
+        await db.refresh(project)
 
         return ProjectResponseSchema.model_validate(project)
-    
-    
+
     @staticmethod
     @exceptions
     async def get_projects(db: AsyncSession) -> list[ProjectResponseSchema]:
@@ -157,13 +154,17 @@ class ProjectService:
         Returns:
             List[ProjectResponseSchema]: A list of all project entries.
         """
-        result = await db.execute(select(Project).options(selectinload(Project.feedbacks)))
+        result = await db.execute(
+            select(Project).options(selectinload(Project.feedbacks))
+        )
         projects = result.scalars().all()
         return [ProjectResponseSchema.model_validate(project) for project in projects]
-    
+
     @staticmethod
     @exceptions
-    async def get_project_by_search(search_term: str, offset: int | None, limit: int | None, db: AsyncSession) -> list[ProjectResponseSchema]:
+    async def get_project_by_search(
+        search_term: str, offset: int | None, limit: int | None, db: AsyncSession
+    ) -> list[ProjectResponseSchema]:
         """
         Retrieve project entries that match the search term.
 
@@ -179,8 +180,8 @@ class ProjectService:
             select(Project)
             .options(selectinload(Project.feedbacks))
             .where(
-                (Project.nome.ilike(f"%{search_term}%")) |
-                (Project.descricao.ilike(f"%{search_term}%"))
+                (Project.nome.ilike(f"%{search_term}%"))
+                | (Project.descricao.ilike(f"%{search_term}%"))
             )
             .offset(offset)
             .limit(limit)

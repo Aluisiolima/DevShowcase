@@ -22,5 +22,6 @@ class ProfileResponseSchema(BaseSchemas):
     """
     Profile schema Response class
     """
-    id:int
+
+    id: int
     nome: str

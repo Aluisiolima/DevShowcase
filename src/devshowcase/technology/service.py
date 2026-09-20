@@ -1,16 +1,14 @@
-from http import HTTPStatus
-
-from fastapi import HTTPException
 from sqlalchemy import select
-from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from devshowcase.core.exceptions import exceptions
-from devshowcase.core.repository import Technology, TechnologyProject
+from devshowcase.core.repository import Technology
 from devshowcase.technology.schema import (
     TechnologyCreateSchema,
     TechnologyResponseSchema,
 )
+from devshowcase.project.schema import ProjectResponseSchema
+
 
 class TechnologyService:
     """
@@ -21,7 +19,7 @@ class TechnologyService:
     @exceptions
     async def create_technology(
         technology_data: TechnologyCreateSchema, db: AsyncSession
-    ) -> TechnologyCreateSchema:
+    ) -> TechnologyResponseSchema:
         """
         Create a new technology entry in the database.
 
@@ -30,14 +28,14 @@ class TechnologyService:
             db (AsyncSession): The database session.
 
         Returns:
-            TechnologyCreateSchema: The created technology entry.
+            TechnologyResponseSchema: The created technology entry.
         """
         new_technology = Technology(**technology_data.model_dump())
         db.add(new_technology)
         await db.commit()
         await db.refresh(new_technology)
-        return TechnologyCreateSchema.model_validate(new_technology)
-    
+        return TechnologyResponseSchema.model_validate(new_technology)
+
     @staticmethod
     @exceptions
     async def get_technologys(db: AsyncSession) -> list[TechnologyResponseSchema]:
